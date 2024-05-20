@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class CampusColors {
   // App theme colors
-  static const Color primary = Color(0xFF4b68ff);
+  static const Color primary = Color(0xFF21a663);
   static const Color secondary = Color(0xFFFFE24B);
-  static const Color accent = Color(0xFFb0c7ff);
+  static const Color accent = Color(0xFF90d3b1);
 
   // Text colors
   static const Color textPrimary = Color(0xFF333333);
@@ -21,7 +21,7 @@ class CampusColors {
   static Color darkContainer = CampusColors.white.withOpacity(0.1);
 
   // Button colors
-  static const Color buttonPrimary = Color(0xFF4b68ff);
+  static const Color buttonPrimary = Color(0xFF21a663);
   static const Color buttonSecondary = Color(0xFF6C757D);
   static const Color buttonDisabled = Color(0xFFC4C4C4);
 

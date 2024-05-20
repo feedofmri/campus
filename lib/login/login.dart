@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../utils/constants/sizes.dart';
+import '../utils/constants/text_strings.dart';
+import '../utils/constants/colors.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(padding: EdgeInsets.only(
+        child: Padding(padding: const EdgeInsets.only(
           top: CampusSizes.appBarHeight,
           left: CampusSizes.defaultSpace,
           right: CampusSizes.defaultSpace,
@@ -17,12 +20,82 @@ class LoginScreen extends StatelessWidget {
         ),
           child: Column(
             children: <Widget>[
+              // Logo and title
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Image(
+                  const Image(
                       height: 100,
-                      image: AssetImage('assets/images/logo.png')),
+                      image: AssetImage('assets/logos/campus-icon.png')
+                  ),
+                  Text(CampusTexts.loginTitle, style: Theme.of(context).textTheme.headlineMedium),
+                  const SizedBox(height: CampusSizes.sm),
+                  Text(CampusTexts.loginSubTitle, style: Theme.of(context).textTheme.bodyMedium),
+                  // Email and password fields
+                  Form(child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: CampusSizes.spaceBtwItems),
+                    child: Column(
+                      children: [
+                        // Email field
+                        TextFormField(
+                          decoration: const InputDecoration(prefixIcon: Icon(Icons.arrow_right) ,labelText: CampusTexts.email),
+                        ),
+                        const SizedBox(height: CampusSizes.spaceBtwItems),
+
+                        // Password field
+                        TextFormField(
+                          decoration: const InputDecoration(prefixIcon: Icon(Icons.password),
+                              labelText: CampusTexts.password,
+                              suffixIcon: Icon(Icons.visibility)),
+                        ),
+                        const SizedBox(height: CampusSizes.spaceBtwItems / 2),
+
+                        // remember me and forget password
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Checkbox(value: false, onChanged: (value) {}),
+                                Text(CampusTexts.rememberMe, style: Theme.of(context).textTheme.bodyMedium),
+                              ],
+                            ),
+                            TextButton(onPressed: () {}, child: Text(CampusTexts.forgetPassword,
+                                style: Theme.of(context).textTheme.bodyMedium)),
+                          ],
+                        ),
+                        const SizedBox(height: CampusSizes.spaceBtwItems),
+
+                        // signing button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: const Text(CampusTexts.signIn),
+                          ),
+                        ),
+
+                        // signup button
+                        SizedBox(
+                          width: double.infinity,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: const Text(CampusTexts.createAccount),
+                          ),
+                    ),
+                      ],
+                    ),
+                  ),
+                  ),
+                  // divider
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Divider(color: CampusColors.grey, thickness: 0.5, indent: 60, endIndent: 5,),
+                      Text(CampusTexts.orSignInWith.capitalize!, style: Theme.of(context).textTheme.bodyMedium),
+                      const Divider(color: CampusColors.grey, thickness: 0.5, indent: 5, endIndent: 60,),
+                    ],
+                  )
                 ],
               )
             ],
