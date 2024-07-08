@@ -1,8 +1,8 @@
-import 'package:campus/utils/Style/ChatBottomSheet.dart';
-import 'package:campus/utils/Style/All_chat.dart';
 import 'package:flutter/material.dart';
 import 'User.dart'; // Ensure this import is correct for your user model
 import 'All_chat.dart'; // Ensure this import is correct for your AllChat widget
+import 'package:campus/utils/Style/ChatBottomSheet.dart';
+import 'package:campus/utils/Style/All_chat.dart';
 
 class ChatPage extends StatelessWidget {
   final User user;
@@ -72,14 +72,21 @@ class ChatPage extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView(
-        padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+      body: Column(
         children: [
-          AllChat(user: user),
-          // Add more widgets here if necessary
+          Expanded(
+            child: ListView(
+              padding:
+                  EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+              children: [
+                AllChat(user: user),
+                // Add more widgets here if necessary
+              ],
+            ),
+          ),
+          ChatBottomSheet(),
         ],
       ),
-      bottomSheet: Chatbottomsheet(),
     );
   }
 }

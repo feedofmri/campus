@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Chatbottomsheet extends StatelessWidget {
+class ChatBottomSheet extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: 65,
@@ -12,7 +13,8 @@ class Chatbottomsheet extends StatelessWidget {
           offset: Offset(0, 3),
         )
       ]),
-      child: Row(
+      child: Flex(
+        direction: Axis.horizontal,
         children: [
           Padding(
             padding: EdgeInsets.only(left: 10),
@@ -30,15 +32,16 @@ class Chatbottomsheet extends StatelessWidget {
               size: 30,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 10),
-            child: Container(
-              alignment: Alignment.centerRight,
-              width: 270,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  hintText: "Type your massage",
-                  border: InputBorder.none,
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Container(
+                alignment: Alignment.centerRight,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Type your message",
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
             ),

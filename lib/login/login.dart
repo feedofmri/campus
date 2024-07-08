@@ -1,4 +1,6 @@
 import 'package:campus/login/signup.dart';
+import 'package:campus/utils/Style/nvigation.datr.dart';
+import 'package:campus/utils/Style/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -89,7 +91,13 @@ class LoginScreen extends StatelessWidget {
                               SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Navigation(),
+                                        ));
+                                  },
                                   child: const Text(CampusTexts.signIn),
                                 ),
                               ),
@@ -99,7 +107,8 @@ class LoginScreen extends StatelessWidget {
                               SizedBox(
                                 width: double.infinity,
                                 child: OutlinedButton(
-                                    onPressed: () => Get.to(() => const SignupScreen()),
+                                    onPressed: () =>
+                                        Get.to(() => const SignupScreen()),
                                     child:
                                         const Text(CampusTexts.createAccount)),
                               ),

@@ -37,7 +37,7 @@ class _WelcomepageState extends State<Welcomepage> {
                   },
                   child: ClipOval(
                     child: Image.asset(
-                      'image/logo001.png',
+                      'assets/images/content/avatar.jpg',
                       width: 100,
                       height: 100,
                       fit: BoxFit.cover,
@@ -91,7 +91,6 @@ class _WelcomepageState extends State<Welcomepage> {
         title: _isSearching
             ? TextField(
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search, color: Colors.white),
                   hintText: 'Search...',
                   hintStyle: TextStyle(color: Colors.white),
                   filled: true,
@@ -118,7 +117,7 @@ class _WelcomepageState extends State<Welcomepage> {
             icon: Container(
               height: 50,
               width: 100,
-              child: Image.asset('image/logo001.png'),
+              child: Image.asset('assets/logos/campus-icon.png'),
             ),
             onPressed: () {
               Scaffold.of(context).openDrawer();
