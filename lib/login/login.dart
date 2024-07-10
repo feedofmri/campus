@@ -1,9 +1,7 @@
 import 'package:campus/login/signup.dart';
 import 'package:campus/utils/Style/nvigation.datr.dart';
-import 'package:campus/utils/Style/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/constants/text_strings.dart';

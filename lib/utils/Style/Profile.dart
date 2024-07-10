@@ -18,7 +18,8 @@ class Profile extends StatelessWidget {
                   CircleAvatar(
                     radius: 70,
                     // profile image
-                    backgroundImage: AssetImage('assets/image/avatar.png'),
+                    backgroundImage:
+                        AssetImage('assets/images/content/avatar.jpg'),
                     backgroundColor: Colors.grey[200],
                   ),
                   SizedBox(
@@ -88,14 +89,9 @@ class Profile extends StatelessWidget {
                     border: Border.all(color: Colors.black, width: 2),
                     gradient: LinearGradient(
                       colors: [
-                        Colors.lightBlue,
-                        Colors.blue,
-                        Colors.green,
-                        Colors.amber,
-                        Colors.cyanAccent,
-                        Colors.deepOrange,
-                        Colors.deepPurple,
-                        Colors.pink
+                        Colors.white12,
+                        Colors.white38,
+                        Colors.white54,
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,

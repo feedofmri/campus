@@ -4,11 +4,16 @@ import 'All_chat.dart'; // Ensure this import is correct for your AllChat widget
 import 'package:campus/utils/Style/ChatBottomSheet.dart';
 import 'package:campus/utils/Style/All_chat.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   final User user;
 
   ChatPage({required this.user});
 
+  @override
+  _ChatPageState createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,21 +27,21 @@ class ChatPage extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 30,
-                  backgroundImage: AssetImage(user.image),
+                  backgroundImage: AssetImage(widget.user.image),
                 ),
                 SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      user.name,
+                      widget.user.name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
                     Text(
-                      user.profession,
+                      widget.user.profession,
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[600],
@@ -79,7 +84,7 @@ class ChatPage extends StatelessWidget {
               padding:
                   EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
               children: [
-                AllChat(user: user),
+                AllChat(user: widget.user),
                 // Add more widgets here if necessary
               ],
             ),

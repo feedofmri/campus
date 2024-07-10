@@ -1,7 +1,6 @@
 import 'package:campus/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/constants/text_strings.dart';
@@ -221,10 +220,9 @@ class SignupScreen extends StatelessWidget {
                           child: IconButton(
                             onPressed: () {},
                             icon: const Image(
-                              width: CampusSizes.iconMd,
-                              height: CampusSizes.iconMd,
-                              image: AssetImage(CampusImages.facebook),
-                            ),
+                                width: CampusSizes.iconMd,
+                                height: CampusSizes.iconMd,
+                                image: AssetImage(CampusImages.facebook)),
                           ),
                         ),
                       ],
