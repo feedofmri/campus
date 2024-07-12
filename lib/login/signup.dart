@@ -1,4 +1,9 @@
+import 'package:campus/login/Firebaseauth.dart';
+import 'package:campus/login/login.dart';
+import 'package:campus/utils/Style/nvigation.datr.dart';
+import 'package:campus/utils/Style/welcome.dart';
 import 'package:campus/utils/helpers/helper_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../utils/constants/image_strings.dart';
@@ -6,8 +11,26 @@ import '../utils/constants/sizes.dart';
 import '../utils/constants/text_strings.dart';
 import '../utils/constants/colors.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,14 +81,15 @@ class SignupScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: CampusSizes.spaceBtwItems),
                     TextFormField(
+                      controller: _usernameController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.alternate_email),
                         labelText: CampusTexts.username,
                       ),
                     ),
                     const SizedBox(height: CampusSizes.spaceBtwItems),
-                    // Email
                     TextFormField(
+                      controller: _emailController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.email),
                         labelText: CampusTexts.email,
@@ -81,9 +105,8 @@ class SignupScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: CampusSizes.spaceBtwItems),
-
-                    // Password
                     TextFormField(
+                      controller: _passwordController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.password),
                         labelText: CampusTexts.password,
@@ -159,7 +182,7 @@ class SignupScreen extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _signUp,
                         child: const Text(CampusTexts.createAccount),
                       ),
                     ),
@@ -235,5 +258,23 @@ class SignupScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _signUp() async {
+    String username = _usernameController.text.toString();
+
+    String email = _emailController.text.toString();
+    String password = _passwordController.text.toString();
+
+    User? user = await _auth.singUpWithEmailAndPassword(email, password);
+
+    if (user != Null) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => LoginScreen()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Signup Failed'),
+      ));
+    }
   }
 }

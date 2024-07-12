@@ -1,22 +1,26 @@
+import 'package:campus/firebase_options.dart';
 import 'package:campus/login/login.dart';
 import 'package:campus/login/signup.dart';
 import 'package:campus/utils/Style/Header_page.dart';
 import 'package:campus/utils/Style/SettingsPage.dart';
 import 'package:campus/utils/Style/institutions.dart';
 import 'package:campus/utils/Style/massage.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screen_ex/flutter_settings_screen_ex.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
   await Hive.initFlutter();
 
   // Initialize Settings with SharePreferenceCache
   await Settings.init(cacheProvider: SharePreferenceCache());
 
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const App());
 }
 

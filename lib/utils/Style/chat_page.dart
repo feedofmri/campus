@@ -5,7 +5,7 @@ import 'package:campus/utils/Style/ChatBottomSheet.dart';
 import 'package:campus/utils/Style/All_chat.dart';
 
 class ChatPage extends StatefulWidget {
-  final User user;
+  final UserX user;
 
   ChatPage({required this.user});
 

@@ -3,7 +3,7 @@ import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart'; // Make sure this file contains the definition for the 'user' list and the User cla
 
 class AllChat extends StatelessWidget {
-  final User user;
+  final UserX user;
 
   AllChat({required this.user});
 

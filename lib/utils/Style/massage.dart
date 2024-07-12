@@ -184,10 +184,10 @@ class _MassagesState extends State<Massages> {
   }
 }
 
-class User {
+class UserX {
   final String name;
   final String profession;
   final String image;
 
-  User({required this.name, required this.profession, required this.image});
+  UserX({required this.name, required this.profession, required this.image});
 }

@@ -1,5 +1,9 @@
+import 'package:campus/login/login.dart';
 import 'package:campus/utils/Style/Header_page.dart';
 import 'package:campus/utils/Style/Iconwidget.dart';
+import 'package:campus/utils/Style/welcome.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screen_ex/flutter_settings_screen_ex.dart';
@@ -20,8 +24,8 @@ class _SettingpageState extends State<Settingspage> {
           child: ListView(
             padding: EdgeInsets.all(24),
             children: [
+              HeaderPage(),
               SettingsGroup(title: 'GENERAL', children: <Widget>[
-                HeaderPage(),
                 AccountPage(),
                 buildLogout(),
                 buildDeleteAccount(),
@@ -38,11 +42,17 @@ class _SettingpageState extends State<Settingspage> {
       );
 
   Widget buildLogout() => SimpleSettingsTile(
-        title: 'Logout',
-        subtitle: '',
-        leading: IconWidget(icon: Icons.logout, color: Colors.blueAccent),
-        onTap: () => Utils.showSnackbar(context, 'Clicked Logout'),
-      );
+      title: 'Logout',
+      subtitle: '',
+      leading: IconWidget(icon: Icons.logout, color: Colors.blueAccent),
+      onTap: () {
+        FirebaseAuth.instance.signOut();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+        Utils.showSnackbar(context, 'Clicked Logout');
+      });
 
   Widget buildDeleteAccount() => SimpleSettingsTile(
         title: 'Delete Account',
