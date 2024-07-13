@@ -29,6 +29,10 @@ dependencies:
   hive: ^2.0.5
   hive_flutter: ^1.1.0
   custom_clippers: ^2.0.0
+
+  #for handling google sign_in
+  google_sign_in: ^6.2.1
+
   # Icons
   iconsax: ^0.0.8
   cupertino_icons: ^1.0.2

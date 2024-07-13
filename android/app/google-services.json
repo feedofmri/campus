@@ -12,7 +12,12 @@
           "package_name": "com.example.eduproject"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "967627888068-ld524bnhk5321p2rpggj19tgr93o8uje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCEhzf5i33NUBPCe56IHp5kOxE2GOyIkVQ"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "967627888068-ld524bnhk5321p2rpggj19tgr93o8uje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "967627888068-95fo3d1nvj0t9edcu63be50879n9lb18.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.boraq.campus"
+              }
+            }
+          ]
         }
       }
     },
@@ -31,7 +48,20 @@
           "package_name": "dev.boraq.campus"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "967627888068-72k4r9camvsobf9otsoks201pdghctfe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.boraq.campus",
+            "certificate_hash": "4f104f2edaabb234cb0a0d57af6fea5e36cb1a39"
+          }
+        },
+        {
+          "client_id": "967627888068-ld524bnhk5321p2rpggj19tgr93o8uje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCEhzf5i33NUBPCe56IHp5kOxE2GOyIkVQ"
@@ -39,7 +69,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "967627888068-ld524bnhk5321p2rpggj19tgr93o8uje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "967627888068-95fo3d1nvj0t9edcu63be50879n9lb18.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.boraq.campus"
+              }
+            }
+          ]
         }
       }
     }

@@ -1,3 +1,8 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:campus/api/apis.dart';
+import 'package:campus/helper/dialogs.dart';
 import 'package:campus/login/Firebaseauth.dart';
 import 'package:campus/login/signup.dart';
 import 'package:campus/utils/Style/nvigation.datr.dart';
@@ -5,6 +10,8 @@ import 'package:campus/utils/Style/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+//import 'package:google_sign_in/google_sign_in.dart';
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/constants/text_strings.dart';
@@ -28,6 +35,60 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  _handleGoogleBtnClick() {
+    //for showing progress bar
+    Dialogs.showProgressBar(context);
+
+    _signInWithGoogle().then((user) async {
+      //for hiding progress bar
+      Navigator.pop(context);
+
+      if (user != null) {
+        log('\nUser: ${user.user}');
+        log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
+
+        if (await APIs.userExists() && mounted) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => Navigation()));
+        } else {
+          await APIs.createUser().then((value) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => Navigation()));
+          });
+        }
+      }
+    });
+  }
+
+  Future<UserCredential?> _signInWithGoogle() async {
+    try {
+      await InternetAddress.lookup('google.com');
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      return await APIs.auth.signInWithCredential(credential);
+    } catch (e) {
+      log('\n_signInWithGoogle: $e');
+
+      if (mounted) {
+        Dialogs.showSnackbar(context, 'Something Went Wrong (Check Internet!)');
+      }
+
+      return null;
+    }
   }
 
   @override
@@ -176,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(100),
                         ),
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: _handleGoogleBtnClick,
                           icon: const Image(
                             width: CampusSizes.iconMd,
                             height: CampusSizes.iconMd,

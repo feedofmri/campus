@@ -64,6 +64,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '967627888068',
     projectId: 'campusadel-2980a',
     storageBucket: 'campusadel-2980a.appspot.com',
+    androidClientId: '967627888068-72k4r9camvsobf9otsoks201pdghctfe.apps.googleusercontent.com',
+    iosClientId: '967627888068-95fo3d1nvj0t9edcu63be50879n9lb18.apps.googleusercontent.com',
     iosBundleId: 'dev.boraq.campus',
   );
 
@@ -73,6 +75,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '967627888068',
     projectId: 'campusadel-2980a',
     storageBucket: 'campusadel-2980a.appspot.com',
+    androidClientId: '967627888068-72k4r9camvsobf9otsoks201pdghctfe.apps.googleusercontent.com',
+    iosClientId: '967627888068-95fo3d1nvj0t9edcu63be50879n9lb18.apps.googleusercontent.com',
     iosBundleId: 'dev.boraq.campus',
   );
 
@@ -85,4 +89,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'campusadel-2980a.appspot.com',
     measurementId: 'G-QD1LHTD1W2',
   );
+
 }
