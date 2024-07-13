@@ -1,3 +1,4 @@
+import 'package:campus/api/apis.dart';
 import 'package:campus/login/login.dart';
 import 'package:campus/utils/Style/Header_page.dart';
 import 'package:campus/utils/Style/Iconwidget.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screen_ex/flutter_settings_screen_ex.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'AccountPage.dart';
 import 'Utils.datr.dart';
@@ -45,13 +47,28 @@ class _SettingpageState extends State<Settingspage> {
       title: 'Logout',
       subtitle: '',
       leading: IconWidget(icon: Icons.logout, color: Colors.blueAccent),
-      onTap: () {
+      onTap: () async {
         FirebaseAuth.instance.signOut();
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => LoginScreen()),
-        );
-        Utils.showSnackbar(context, 'Clicked Logout');
+        await APIs.updateActiveStatus(false);
+
+        //sign out from app
+        await APIs.auth.signOut().then((value) async {
+          await GoogleSignIn().signOut().then((value) {
+            //for hiding progress dialog
+            Navigator.pop(context);
+
+            //for moving to home screen
+            Navigator.pop(context);
+
+            // APIs.auth = FirebaseAuth.instance;
+
+            //replacing home screen with login screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
+          });
+        });
       });
 
   Widget buildDeleteAccount() => SimpleSettingsTile(
