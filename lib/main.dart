@@ -11,6 +11,7 @@ import 'package:flutter_settings_screen_ex/flutter_settings_screen_ex.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+late Size mq;
 void main() async {
   await Hive.initFlutter();
 
@@ -36,6 +37,7 @@ class App extends StatefulWidget {
 class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
+    final MediaQueryData mq = MediaQuery.of(context);
     return ValueChangeObserver<bool>(
       cacheKey: HeaderPage.keyDarkMode,
       defaultValue: true,

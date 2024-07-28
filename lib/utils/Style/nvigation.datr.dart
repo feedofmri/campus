@@ -1,3 +1,4 @@
+import 'package:campus/chat/home_screen.dart';
 import 'package:campus/utils/Style/welcome.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:campus/utils/Style/document.dart';
@@ -17,7 +18,7 @@ class _NavigationState extends State<Navigation> {
     Welcomepage(),
     Document(),
     Institutions(),
-    Massages(),
+    HomeScreen(),
     Profile()
   ];
   List<Color> colorList = [

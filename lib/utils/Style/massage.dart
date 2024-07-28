@@ -7,12 +7,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'User.dart'; // Ensure this import is correct for your user model
 
-class Massages extends StatefulWidget {
+class Massages1 extends StatefulWidget {
   @override
   _MassagesState createState() => _MassagesState();
 }
 
-class _MassagesState extends State<Massages> {
+class _MassagesState extends State<Massages1> {
   // Assuming `user` is a list of User objects, define it here
 
   int _counter = 0;
