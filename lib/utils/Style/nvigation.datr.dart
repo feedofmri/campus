@@ -1,4 +1,6 @@
 import 'package:campus/chat/home_screen.dart';
+import 'package:campus/utils/Style/News_page.dart';
+import 'package:campus/utils/Style/community_page.dart';
 import 'package:campus/utils/Style/welcome.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:campus/utils/Style/document.dart';
@@ -16,10 +18,10 @@ class _NavigationState extends State<Navigation> {
   int mindex = 0;
   List<Widget> widgetList = [
     Welcomepage(),
-    Document(),
+    Newspage(),
     Institutions(),
     HomeScreen(),
-    Profile()
+    CommunityPage(),
   ];
   List<Color> colorList = [
     Colors.deepPurple,

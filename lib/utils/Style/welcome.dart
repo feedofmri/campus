@@ -1,11 +1,33 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:campus/api/apisfornews/Slidermodel.dart';
+import 'package:campus/api/apisfornews/all_news.dart';
+import 'package:campus/api/apisfornews/articalmodel.dart';
+import 'package:campus/api/apisfornews/articleview.dart';
+import 'package:campus/api/apisfornews/category_news.dart';
+import 'package:campus/api/apisfornews/categorymodel.dart';
+import 'package:campus/api/apisfornews/data.dart';
+import 'package:campus/api/apisfornews/sliderdata.dart';
+import 'package:campus/api/newsapi.dart';
+import 'package:campus/helper/add_screen.dart';
+import 'package:campus/helper/post_widget.dart';
 import 'package:campus/utils/Style/Scedule.dart';
 import 'package:campus/utils/Style/SettingsPage.dart';
-import 'package:campus/utils/Style/Todolist.dart';
+import 'package:campus/utils/Style/Todolists/Todocpy.dart';
+import 'package:campus/utils/Style/document.dart';
+import 'package:campus/utils/constants/text_strings.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:campus/utils/Style/Profile.dart';
 import 'package:campus/utils/Style/Notification.dart';
-import 'package:campus/utils/Style/Notification.dart';
+import 'package:campus/api/user_controller.dart';
+import 'package:campus/helper/profile_edit.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'dart:math' as math;
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Welcomepage extends StatefulWidget {
   @override
@@ -19,6 +41,7 @@ class _WelcomepageState extends State<Welcomepage>
   static const double minDragStartEdge = 60.0;
   static const double maxDragStartEdge = 0.0;
   bool canBeDragged = false;
+  bool _loading = true;
 
   @override
   void initState() {
@@ -65,6 +88,9 @@ class _WelcomepageState extends State<Welcomepage>
 
   @override
   Widget build(BuildContext context) {
+    final userController = Get.find<
+        UserController>(); // Ensure this is registered before calling Get.find
+
     var myDrawer = Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -72,28 +98,32 @@ class _WelcomepageState extends State<Welcomepage>
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
-                    'https://tz-mag-media.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2018/11/08110153/image25.png'),
+                image: AssetImage('assets/images/backimage.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
-            accountName: Text("AdelKing047#"),
-            accountEmail: Text("adelzahid01@gmail.com"),
+            accountName: Obx(() => Text(userController.name.value.isEmpty
+                ? 'UserName@#*..'
+                : userController.name.value)),
+            accountEmail: Obx(() => Text(userController.email.value.isEmpty
+                ? 'Loading...'
+                : userController.email.value)),
             currentAccountPicture: CircleAvatar(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Profile()),
-                  );
+                  Get.to(() => Profile(email: 'test@example.com'));
                 },
                 child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/content/avatar.jpg',
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
+                  child: Obx(() {
+                    return CircleAvatar(
+                      radius: 70,
+                      backgroundImage: userController.imageLink.value.isNotEmpty
+                          ? NetworkImage(userController.imageLink.value)
+                          : AssetImage('assets/images/content/avatar.jpg')
+                              as ImageProvider,
+                      backgroundColor: Colors.grey[200],
+                    );
+                  }),
                 ),
               ),
             ),
@@ -111,9 +141,7 @@ class _WelcomepageState extends State<Welcomepage>
           ListTile(
             leading: Icon(Icons.home),
             title: Text('Home'),
-            onTap: () {
-              Navigator.pop(context);
-            },
+            onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.list_alt_rounded),
@@ -127,20 +155,18 @@ class _WelcomepageState extends State<Welcomepage>
           ),
           ListTile(
             leading: Icon(Icons.class_),
-            title: Text('Schedule'),
+            title: Text('Save Files'),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SchedulePage()),
+                MaterialPageRoute(builder: (context) => DocumentPage()),
               );
             },
           ),
           ListTile(
-            leading: Icon(Icons.calendar_today),
-            title: Text('Work-List'),
-            onTap: () {
-              Navigator.pop(context);
-            },
+            leading: Icon(Icons.help),
+            title: Text('Help'),
+            onTap: () {},
           ),
         ],
       ),
@@ -150,7 +176,7 @@ class _WelcomepageState extends State<Welcomepage>
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF674AEF),
-          elevation: 4, // Add elevation for a shadow effect
+          elevation: 4,
           toolbarHeight: 70,
           title: _isSearching
               ? TextField(
@@ -217,352 +243,38 @@ class _WelcomepageState extends State<Welcomepage>
             bottom: BorderSide(
               color: Colors.black,
               width: 2,
-            ), // Adjust width and color as needed
+            ),
           ),
         ),
         drawer: myDrawer,
-        body: Container(
-          color: Colors.white54,
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              Center(
-                                child: InkWell(
-                                  onTap: () {
-                                    print('Tapped on Container');
-                                  },
-                                  onDoubleTap: () {
-                                    print('Double tap');
-                                  },
-                                  onLongPress: () {
-                                    print('Long Pressed on Container');
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      color: Colors.lightGreenAccent,
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "You have add pages: ",
-                                        style: TextStyle(
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Center(
-                                child: InkWell(
-                                  onTap: () {
-                                    print('Tapped on Container');
-                                  },
-                                  onDoubleTap: () {
-                                    print('Double tap');
-                                  },
-                                  onLongPress: () {
-                                    print('Long Pressed on Container');
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      color: Colors.deepOrange,
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Click here",
-                                        style: TextStyle(
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Center(
-                                child: InkWell(
-                                  onTap: () {
-                                    print('Tapped on Container');
-                                  },
-                                  onDoubleTap: () {
-                                    print('Double tap');
-                                  },
-                                  onLongPress: () {
-                                    print('Long Pressed on Container');
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      color: Colors.amberAccent,
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Click here",
-                                        style: TextStyle(
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Center(
-                                child: InkWell(
-                                  onTap: () {
-                                    print('Tapped on Container');
-                                  },
-                                  onDoubleTap: () {
-                                    print('Double tap');
-                                  },
-                                  onLongPress: () {
-                                    print('Long Pressed on Container');
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      color: Colors.deepPurple,
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Click here",
-                                        style: TextStyle(
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Center(
-                                child: InkWell(
-                                  onTap: () {
-                                    print('Tapped on Container');
-                                  },
-                                  onDoubleTap: () {
-                                    print('Double tap');
-                                  },
-                                  onLongPress: () {
-                                    print('Long Pressed on Container');
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      color: Colors.deepOrange,
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Click here",
-                                        style: TextStyle(
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Center(
-                                child: InkWell(
-                                  onTap: () {
-                                    print('Tapped on Container');
-                                  },
-                                  onDoubleTap: () {
-                                    print('Double tap');
-                                  },
-                                  onLongPress: () {
-                                    print('Long Pressed on Container');
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      color: Colors.lightBlue,
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Click here",
-                                        style: TextStyle(
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      // advertisement containers
-                      Center(
-                        child: InkWell(
-                          onTap: () {
-                            print('Tapped on Container');
-                          },
-                          onDoubleTap: () {
-                            print('Double tap');
-                          },
-                          onLongPress: () {
-                            print('Long Pressed on Container');
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            height: 200,
-                            decoration: BoxDecoration(
-                              color: Colors.yellow,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(width: 5, color: Colors.black),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Click here",
-                                style: TextStyle(
-                                    fontSize: 21, fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: InkWell(
-                          onTap: () {
-                            print('Tapped on Container');
-                          },
-                          onDoubleTap: () {
-                            print('Double tap');
-                          },
-                          onLongPress: () {
-                            print('Long Pressed on Container');
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            height: 200,
-                            decoration: BoxDecoration(
-                              color: Colors.lightBlue,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(width: 5, color: Colors.black),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: InkWell(
-                          onTap: () {
-                            print('Tapped on Container');
-                          },
-                          onDoubleTap: () {
-                            print('Double tap');
-                          },
-                          onLongPress: () {
-                            print('Long Pressed on Container');
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            height: 200,
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(width: 5, color: Colors.black),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: InkWell(
-                          onTap: () {
-                            print('Tapped on Container');
-                          },
-                          onDoubleTap: () {
-                            print('Double tap');
-                          },
-                          onLongPress: () {
-                            print('Long Pressed on Container');
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            height: 200,
-                            decoration: BoxDecoration(
-                              color: Colors.lightBlue[800],
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(width: 5, color: Colors.black),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Click here",
-                                style: TextStyle(
-                                    fontSize: 21, fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: InkWell(
-                          onTap: () {
-                            print('Tapped on Container');
-                          },
-                          onDoubleTap: () {
-                            print('Double tap');
-                          },
-                          onLongPress: () {
-                            print('Long Pressed on Container');
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            height: 200,
-                            decoration: BoxDecoration(
-                              color: Colors.cyan,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(width: 5, color: Colors.black),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+            builder: (context,
+                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) => PostWidget(
+                  snap: snapshot.data!.docs[index].data(),
                 ),
-              ),
-            ],
-          ),
+              );
+            }),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddScreen()),
+            );
+          },
+          child: Icon(Icons.add),
+          tooltip: 'Add Post',
         ),
       ),
     );
-
     return GestureDetector(
       onHorizontalDragStart: _onDragStart,
       onHorizontalDragUpdate: _onDragUpdate,
@@ -570,7 +282,7 @@ class _WelcomepageState extends State<Welcomepage>
       onTap: toggle,
       child: AnimatedBuilder(
         animation: animationController,
-        builder: (context, child) {
+        builder: (context, _) {
           double slide = 225.0 * animationController.value;
           double scale = 1 - (animationController.value * 0.3);
           return Stack(
@@ -600,11 +312,5 @@ class _WelcomepageState extends State<Welcomepage>
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
   }
 }
