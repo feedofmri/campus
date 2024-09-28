@@ -1,68 +1,124 @@
 import 'package:flutter/material.dart';
-import 'dart:developer';
-import 'dart:ui';
+import 'package:get/get.dart';
+import 'package:campus/helper/profile_edit.dart';
+import 'package:campus/api/user_controller.dart';
 
 class Profile extends StatelessWidget {
+  final String email;
+
+  const Profile({Key? key, required this.email}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final userController = Get.find<UserController>();
+
+    // Call getProfileData to fetch user data
+    userController.getProfileData();
+
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.edit, color: Colors.blueAccent),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfileEdit(
+                    onSaveProfile: (data) {
+                      userController.updateProfile(
+                        name: data['name'],
+                        desig: data['designation'],
+                        institution: data['institution'],
+                        address: data['address'],
+                        number: data['number'],
+                        linkdinId: data['linkedinId'],
+                        imageLink: data['profileImageUrl'],
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 100.0, left: 30, right: 30),
+          padding: const EdgeInsets.only(top: 20.0, left: 30, right: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 70,
-                    // profile image
-                    backgroundImage:
-                        AssetImage('assets/images/content/avatar.jpg'),
-                    backgroundColor: Colors.grey[200],
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        //user name
-                        child: Text(
-                          "Name",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'AutumnFlowers-9YVZK.otf',
-                          ),
-                        ),
-                      ),
-                      //user designation
-                      Text(
-                        "Designation",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          fontStyle: FontStyle.italic,
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                    ],
-                  )
+            children: [
+              Stack(
+                children: [
+                  Obx(() {
+                    final imageUrl = userController.imageLink.value;
+                    ImageProvider imageProvider;
+                    if (imageUrl.isNotEmpty) {
+                      imageProvider = NetworkImage(imageUrl);
+                    } else {
+                      imageProvider =
+                          AssetImage('assets/images/content/avatar.jpg');
+                    }
+                    return CircleAvatar(
+                      radius: 70,
+                      backgroundImage: imageProvider,
+                      backgroundColor: Colors.grey[200],
+                    );
+                  }),
                 ],
               ),
+              SizedBox(height: 20),
+              Obx(() => Text(
+                    userController.name.value.isEmpty
+                        ? 'Name'
+                        : userController.name.value,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'AutumnFlowers-9YVZK.otf',
+                    ),
+                  )),
+              SizedBox(height: 10),
+              Obx(() => Text(
+                    userController.desig.value.isEmpty
+                        ? 'Designation'
+                        : userController.desig.value,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey[700],
+                    ),
+                  )),
               Padding(
                 padding: const EdgeInsets.only(top: 30),
                 child: Column(
                   children: [
-                    infoRow(Icons.school, 'Institution'),
-                    infoRow(Icons.mail, '@gmail.com'),
-                    infoRow(Icons.location_city, 'Kotbari, Cumilla'),
-                    infoRow(Icons.work, 'Projects'),
-                    infoRow(Icons.phone, 'Number'),
+                    infoRow(
+                        Icons.school,
+                        userController.institution.value.isEmpty
+                            ? 'Institution'
+                            : userController.institution.value),
+                    infoRow(
+                        Icons.location_city,
+                        userController.address.value.isEmpty
+                            ? 'Address'
+                            : userController.address.value),
+                    infoRow(
+                        Icons.phone,
+                        userController.number.value.isEmpty
+                            ? 'Mobile-No'
+                            : userController.number.value),
+                    infoRow(Icons.mail, userController.email.value),
+                    infoRow(
+                        Icons.work,
+                        userController.linkdinId.value.isEmpty
+                            ? 'LinkedIn-ID'
+                            : userController.linkdinId.value),
                   ],
                 ),
               ),
@@ -139,9 +195,7 @@ class Profile extends StatelessWidget {
             size: 30,
             color: Colors.blueAccent,
           ),
-          SizedBox(
-            width: 10,
-          ),
+          SizedBox(width: 10),
           Text(
             text,
             style: TextStyle(

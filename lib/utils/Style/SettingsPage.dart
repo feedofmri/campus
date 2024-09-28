@@ -1,4 +1,5 @@
 import 'package:campus/api/apis.dart';
+import 'package:campus/api/user_controller.dart';
 import 'package:campus/login/login.dart';
 import 'package:campus/utils/Style/Header_page.dart';
 import 'package:campus/utils/Style/Iconwidget.dart';
@@ -59,8 +60,11 @@ class _SettingpageState extends State<Settingspage> {
 
             //for moving to home screen
             Navigator.pop(context);
-
             // APIs.auth = FirebaseAuth.instance;
+            Get.put(UserController());
+
+            final userController = Get.find<UserController>();
+            userController.signOut();
 
             //replacing home screen with login screen
             Navigator.push(

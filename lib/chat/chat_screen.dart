@@ -303,14 +303,12 @@ class _ChatScreenState extends State<ChatScreen> {
                       },
                       icon: const Icon(Icons.camera_alt_rounded,
                           color: Colors.blueAccent, size: 26)),
-
                   //adding some space
                   SizedBox(width: mq.size.width * .02),
                 ],
               ),
             ),
           ),
-
           //send message button
           MaterialButton(
             onPressed: () {

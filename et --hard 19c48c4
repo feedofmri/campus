@@ -1,0 +1,30 @@
+[33mdf63df9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m3d660f8[m HEAD@{1}: reset: moving to HEAD~1
+[33m8e00696[m HEAD@{2}: reset: moving to HEAD~2
+[33me39d83b[m HEAD@{3}: reset: moving to HEAD~2
+[33m60b0281[m HEAD@{4}: reset: moving to HEAD~2
+[33m05d24ef[m HEAD@{5}: reset: moving to HEAD~3
+[33m8d0b6a3[m HEAD@{6}: reset: moving to HEAD~2
+[33m9fbda01[m HEAD@{7}: reset: moving to HEAD~2
+[33meed90d0[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{8}: reset: moving to HEAD~1
+[33m32a4c8c[m HEAD@{9}: reset: moving to HEAD~1
+[33m5ae3659[m HEAD@{10}: reset: moving to HEAD~1
+[33m59038ac[m HEAD@{11}: reset: moving to HEAD~1
+[33m19c48c4[m HEAD@{12}: commit: gfsgsg
+[33m59038ac[m HEAD@{13}: commit: Feed page is added and other todolist page is updated
+[33m5ae3659[m HEAD@{14}: commit: new feed page is added
+[33m32a4c8c[m HEAD@{15}: commit: TodoListand institutionpage is updated
+[33meed90d0[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{16}: commit: Profile page is updated
+[33m3d0e9c0[m HEAD@{17}: commit: new google login changes
+[33m9fbda01[m HEAD@{18}: commit: authentication suceed
+[33m1ceef1e[m HEAD@{19}: commit: new changes has done
+[33m8d0b6a3[m HEAD@{20}: commit: new changes
+[33m1f54ff9[m HEAD@{21}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m6f2eae3[m HEAD@{22}: reset: moving to HEAD
+[33m6f2eae3[m HEAD@{23}: commit: A new directory name Style is added and other pages were included
+[33m05d24ef[m HEAD@{24}: commit: A new directory name Style is added and other pages were included
+[33mf3c3631[m HEAD@{25}: commit: new directory
+[33m60b0281[m HEAD@{26}: commit: A new directory name Style is added and other pages were included
+[33m99e63fc[m HEAD@{27}: commit (amend): icon changed
+[33me28a11e[m HEAD@{28}: commit: icon changed
+[33me39d83b[m HEAD@{29}: clone: from https://github.com/feedofmri/campus.git

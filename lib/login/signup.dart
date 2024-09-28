@@ -1,6 +1,5 @@
 import 'package:campus/login/Firebaseauth.dart';
 import 'package:campus/login/login.dart';
-import 'package:campus/utils/Style/nvigation.datr.dart';
 import 'package:campus/utils/Style/welcome.dart';
 import 'package:campus/utils/helpers/helper_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,6 +22,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
+  bool _agreeToTerms = false;
 
   @override
   void dispose() {
@@ -107,10 +108,22 @@ class _SignupScreenState extends State<SignupScreen> {
                     const SizedBox(height: CampusSizes.spaceBtwItems),
                     TextFormField(
                       controller: _passwordController,
-                      decoration: const InputDecoration(
+                      obscureText: _obscurePassword,
+                      decoration: InputDecoration(
                         prefixIcon: Icon(Icons.password),
                         labelText: CampusTexts.password,
-                        suffixIcon: Icon(Icons.visibility),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: CampusSizes.spaceBtwItems),
@@ -123,8 +136,12 @@ class _SignupScreenState extends State<SignupScreen> {
                           width: 24,
                           height: 24,
                           child: Checkbox(
-                            value: true,
-                            onChanged: (value) {},
+                            value: _agreeToTerms,
+                            onChanged: (value) {
+                              setState(() {
+                                _agreeToTerms = value!;
+                              });
+                            },
                           ),
                         ),
                         const SizedBox(width: 10.0),
@@ -261,14 +278,34 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _signUp() async {
-    String username = _usernameController.text.toString();
+    String username = _usernameController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
 
-    String email = _emailController.text.toString();
-    String password = _passwordController.text.toString();
+    if (username.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        !_agreeToTerms) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Please fill all fields and agree to the terms and conditions.'),
+      ));
+      return;
+    }
+
+    if (!RegExp(
+            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
+        .hasMatch(password)) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Password must be at least 8 characters long and include an uppercase letter, a number, and a symbol.'),
+      ));
+      return;
+    }
 
     User? user = await _auth.singUpWithEmailAndPassword(email, password);
 
-    if (user != Null) {
+    if (user != null) {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => LoginScreen()));
     } else {

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:campus/api/apis.dart';
+import 'package:campus/api/user_controller.dart';
 import 'package:campus/helper/dialogs.dart';
 import 'package:campus/login/Firebaseauth.dart';
 import 'package:campus/login/signup.dart';
@@ -11,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-//import 'package:google_sign_in/google_sign_in.dart';
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/constants/text_strings.dart';
@@ -28,8 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final FirebaseAuthService _auth = FirebaseAuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final UserController userController = Get.find(); // Find the UserController
   bool _isLoading = false;
-
+  bool _obscurePassword = true; // Added variable to handle password visibility
   @override
   void dispose() {
     _emailController.dispose();
@@ -48,10 +49,16 @@ class _LoginScreenState extends State<LoginScreen> {
       if (user != null) {
         log('\nUser: ${user.user}');
         log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
+        String? email = user.user?.email;
+        final userController = Get.put(UserController());
+        userController.email(email ?? '');
 
         if (await APIs.userExists() && mounted) {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => Navigation()));
+              context,
+              MaterialPageRoute(
+                builder: (_) => Navigation(),
+              ));
         } else {
           await APIs.createUser().then((value) {
             Navigator.pushReplacement(
@@ -141,12 +148,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           // Password field
                           TextFormField(
                             controller: _passwordController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               prefixIcon: Icon(Icons.password),
                               labelText: CampusTexts.password,
-                              suffixIcon: Icon(Icons.visibility),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscurePassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
+                              ),
                             ),
-                            obscureText: true,
+                            obscureText: _obscurePassword,
                           ),
                           const SizedBox(height: CampusSizes.spaceBtwItems / 2),
                           // Remember me and forget password

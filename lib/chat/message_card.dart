@@ -137,8 +137,8 @@ class _MessageCardState extends State<MessageCard> {
                 horizontal: mq.size.width * .04,
                 vertical: mq.size.height * .01),
             decoration: BoxDecoration(
-                color: const Color.fromARGB(130, 255, 0, 0),
-                border: Border.all(color: Colors.redAccent),
+                color: Color.fromARGB(32, 85, 255, 0),
+                border: Border.all(color: Color.fromARGB(255, 227, 246, 185)),
                 //making borders curved
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(30),
