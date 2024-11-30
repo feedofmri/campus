@@ -10,6 +10,7 @@ import 'package:campus/api/apisfornews/sliderdata.dart';
 import 'package:campus/api/newsapi.dart';
 import 'package:campus/helper/add_screen.dart';
 import 'package:campus/helper/post_widget.dart';
+import 'package:campus/utils/Style/Help_Chatbar.dart';
 import 'package:campus/utils/Style/Scedule.dart';
 import 'package:campus/utils/Style/SettingsPage.dart';
 import 'package:campus/utils/Style/Todolists/Todocpy.dart';
@@ -166,7 +167,12 @@ class _WelcomepageState extends State<Welcomepage>
           ListTile(
             leading: Icon(Icons.help),
             title: Text('Help'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HelpChatbar()),
+              );
+            },
           ),
         ],
       ),

@@ -287,7 +287,6 @@ class _HomeScreenState extends State<HomeScreen> {
           //cancel button
           MaterialButton(
               onPressed: () {
-                //hide alert dialog
                 Navigator.pop(context);
               },
               child: const Text('Cancel',

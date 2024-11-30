@@ -67,6 +67,9 @@ dependencies:
   photo_manager: ^3.2.3
   provider: ^6.1.2
   uuid: ^4.5.0
+  google_generative_ai: ^0.4.6
+  flutter_gemini: ^2.0.5
+  dash_chat_2: ^0.0.21
 
   
   
@@ -93,6 +96,8 @@ flutter:
   #--------------- LOCAL ASSETS ------------------#
   assets:
     - assets/logos/
+    - assets/logos/campus-icon.png
+    - assets/logos/images.png
     - assets/icons/brands/
     - assets/images/content/
     - assets/images/banners/

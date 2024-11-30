@@ -5,7 +5,6 @@ import 'package:campus/utils/Style/welcome.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:campus/utils/Style/document.dart';
 import 'package:campus/utils/Style/institutions.dart';
-import 'package:campus/utils/Style/massage.dart';
 import 'package:campus/utils/Style/Profile.dart';
 import 'package:flutter/material.dart';
 
